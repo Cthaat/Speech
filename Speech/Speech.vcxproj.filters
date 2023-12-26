@@ -18,5 +18,19 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Speech.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="manager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Speech.hh">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="manager.hh">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
