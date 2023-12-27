@@ -25,9 +25,11 @@ int main()
 			break;
 			//查看往届比赛
 		case 2:
+			Manager.EnquiryHistoryMarks();
 			break;
 			//清空比赛记录
 		case 3:
+			Manager.ClearHistoryMarks();
 			break;
 		case 0:
 			Manager.ExitSpeech();

@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <fstream>
 #include <ctime>
 #include "Speech.hh"
 using namespace std;
@@ -50,6 +51,12 @@ public:
 	void BeginCompetition();
 
 	void SpeakersQualify();
+
+	void SaveMarks();
+
+	void EnquiryHistoryMarks();
+
+	void ClearHistoryMarks();
 
 	void ExitSpeech();
 

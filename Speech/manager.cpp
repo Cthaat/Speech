@@ -65,7 +65,7 @@ void SpeechManager::ShowSpeakers()
 		for (vector<int>::iterator it = winers.begin(); it != winers.end(); it++)
 		{
 			map<int, Speaker>::iterator MAP_Speaker = this->ma_Speaker.find(*it);
-			cout << "选手编号： " << *it << "选手姓名： " << (*MAP_Speaker).second.name << "选手成绩： " << (*MAP_Speaker).second.score[1] << endl;
+			cout << "选手编号： " << *it << "  选手姓名： " << (*MAP_Speaker).second.name << "  选手成绩： " << (*MAP_Speaker).second.score[1] << endl;
 		}
 	}
 	if (MyIndex == 3)
@@ -73,14 +73,14 @@ void SpeechManager::ShowSpeakers()
 		for (vector<int>::iterator it = winer.begin(); it != winer.end(); it++)
 		{
 			map<int, Speaker>::iterator MAP_Speaker = this->ma_Speaker.find(*it);
-			cout << "选手编号： " << *it << "选手姓名： " << (*MAP_Speaker).second.name << "选手成绩： " << (*MAP_Speaker).second.score[1] << endl;
+			cout << "选手编号： " << *it << "  选手姓名： " << (*MAP_Speaker).second.name << "  选手成绩： " << (*MAP_Speaker).second.score[1] << endl;
 		}
 	}
 }
 
 void SpeechManager::StartSpeechGame()
 {
-	this->MyIndex = 1;
+	this->MyIndex++;
 	cout << "现在进行第一场比赛" << endl;
 	this->SpeechDraw();
 	cout << "按任意键开始比赛" << endl;
@@ -88,7 +88,7 @@ void SpeechManager::StartSpeechGame()
 	this->BeginCompetition();
 	cout << "比赛结束：" << endl << "以下是选手分数 ：" << endl;
 	this->ShowSpeakers();
-	this->MyIndex = 2;
+	this->MyIndex++;
 	this->SpeakersQualify();
 	cout << "以下是晋级选手 ：" << endl;
 	this->ShowSpeakers();
@@ -100,10 +100,11 @@ void SpeechManager::StartSpeechGame()
 	cout << "以下是选手分数" << endl;
 	this->ShowSpeakers();
 	system("pause");
-	this->MyIndex = 3;
+	this->MyIndex++;
 	this->SpeakersQualify();
 	cout << "恭喜以下选手" << endl;
 	this->ShowSpeakers();
+	this->SaveMarks();
 	system("pause");
 }
 
@@ -179,6 +180,65 @@ void SpeechManager::SpeakersQualify()
 			winer.push_back(*it);
 		}
 	}
+}
+
+void SpeechManager::SaveMarks()
+{
+	ofstream ofs;
+	ofs.open("./speach.csv", ios::out | ios::app);
+	for (vector<int>::iterator it = winer.begin(); it != winer.end(); it++)
+	{
+		ofs << *it << "," << this->ma_Speaker[*it].score[1] << ",";
+	}
+	ofs << endl;
+	ofs.close();
+}
+
+void SpeechManager::EnquiryHistoryMarks()
+{
+	ifstream ifs;
+	ifs.open("./speach.csv", ios::in);
+	if (!ifs.is_open())
+	{
+		cout << "文件不存在" << endl;
+		system("pause");
+		return;
+	}
+	char ch;
+	ifs >> ch;
+	if (ifs.eof())
+	{
+		cout << "文件为空" << endl;
+		system("pause");
+		return;
+	}
+	ifs.putback(ch);
+	string data;
+	int pos = -1;
+	int start = 0;
+	for (; !ifs.eof(); ifs >> data)
+	{
+		pos = data.find(",", start);
+		while (pos != -1)
+		{
+			pos = data.find(",", start);
+			string temp = data.substr(start, pos - start);
+			cout << temp << " ";
+			start = pos + 1;
+		}
+		cout << endl;
+	}
+	ifs.close();
+	system("pause");
+}
+
+void SpeechManager::ClearHistoryMarks()
+{
+	ofstream ofs;
+	ofs.open("./speach.csv", ios::trunc);
+	cout << "文件已清空" << endl;
+	system("pause");
+	ofs.close();
 }
 
 void SpeechManager::ExitSpeech()
